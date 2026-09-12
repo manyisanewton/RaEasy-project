@@ -21,3 +21,22 @@ const counter = new IntersectionObserver((entries) => entries.forEach((entry) =>
 }), { threshold: 0.35 });
 document.querySelectorAll('[data-to]').forEach((number) => counter.observe(number));
 document.querySelector('#year').textContent = new Date().getFullYear();
+
+const demoForm = document.querySelector('#demo-form');
+demoForm?.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const data = new FormData(demoForm);
+  const subject = `Demo request — ${data.get('company')}`;
+  const body = [
+    `Name: ${data.get('name')}`,
+    `Email: ${data.get('email')}`,
+    `Company: ${data.get('company')}`,
+    `Phone: ${data.get('phone') || 'Not provided'}`,
+    `Service: ${data.get('service')}`,
+    '',
+    'Project challenge:',
+    data.get('message'),
+  ].join('\n');
+  document.querySelector('#form-note').textContent = 'Opening your email app to send the request…';
+  window.location.href = `mailto:talktous@raeasy.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+});
